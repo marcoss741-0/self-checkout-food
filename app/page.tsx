@@ -1,9 +1,5 @@
-"use client";
-
-import Link from "next/link";
 import Image from "next/image";
-import { Button } from "./_components/ui/button";
-import { Card, CardContent } from "./_components/ui/card";
+import ConsumptionMethodOptions from "./_components/consumption-method";
 
 export default function Home() {
   return (
@@ -28,37 +24,20 @@ export default function Home() {
           </p>
         </div>
         <div className="grid grid-cols-2 gap-4 pt-14">
-          <Card>
-            <CardContent className="flex flex-col items-center gap-8 py-8">
-              <div className="relative h-[80px] w-[80px]">
-                <Image
-                  src="/dine-in.png"
-                  fill
-                  alt="Dine In"
-                  className="object-contain"
-                />
-              </div>
-              <Button variant="secondary" className="rounded-full" asChild>
-                <Link href={`#`}>Comer aqui</Link>
-              </Button>
-            </CardContent>
-          </Card>
+          {/* CONSUMPTION METHOD - DELIVERY */}
+          <ConsumptionMethodOptions
+            imageUrl="/dine-in.png"
+            text="Comer Aqui"
+            method="DINE_IN"
+            imageAlt="Ícone de Comer Aqui"
+          />
 
-          <Card>
-            <CardContent className="flex flex-col items-center gap-8 py-8">
-              <div className="relative h-[80px] w-[80px]">
-                <Image
-                  src="/take-away.png"
-                  fill
-                  alt="Take Away"
-                  className="object-contain"
-                />
-              </div>
-              <Button variant="secondary" className="rounded-full" asChild>
-                <Link href={`#`}>Para viagem</Link>
-              </Button>
-            </CardContent>
-          </Card>
+          <ConsumptionMethodOptions
+            imageUrl="/take-away.png"
+            text="Para Levar"
+            method="TAKEAWAY"
+            imageAlt="Ícone de Para Levar"
+          />
         </div>
       </div>
     </>
