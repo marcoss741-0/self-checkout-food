@@ -21,7 +21,7 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
     console.log("Cart button clicked");
   }
   return (
-    <div className="relative h-[332px] w-full">
+    <div className="relative h-[332px] w-full bg-slate-100">
       <Button
         size="icon"
         variant="secondary"
