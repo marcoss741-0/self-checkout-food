@@ -15,7 +15,7 @@ const ProductsPage = ({ products }: ProductsPageProps) => {
       {products.map((product) => (
         <Link
           key={product.id}
-          href="#"
+          href={`/menu/${product.id}`}
           className="flex justify-between items-center gap-10 border-b py-3"
         >
           <div>
