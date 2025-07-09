@@ -43,7 +43,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
   return (
     <>
-      <div className="flex flex-col gap-6 p-5 rounded-t-3xl bg-white z-10">
+      <div className="flex flex-col h-full gap-6 p-5 rounded-t-3xl bg-white z-10">
         <div className="flex flex-col gap-3">
           <h1 className="text-xl font-semibold">{product?.name}</h1>
           <div className="flex items-center justify-between">
