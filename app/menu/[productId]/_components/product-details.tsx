@@ -4,7 +4,7 @@ import { Button } from "@/app/_components/ui/button";
 import { formatCurrency } from "@/app/helpers/format-currency";
 import { Product } from "@prisma/client";
 import { ChefHat, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ProductDetailsProps {
   product: Product | null;
@@ -12,13 +12,33 @@ interface ProductDetailsProps {
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   const [quantity, setQuantity] = useState(1);
+  const prevQuantity = useRef(quantity);
+  const [leftButtonVariant, setLeftButtonVariant] = useState<
+    "secondary" | "destructive"
+  >("secondary");
+  const [rightButtonVariant, setRightButtonVariant] = useState<
+    "secondary" | "destructive"
+  >("secondary");
+
+  useEffect(() => {
+    if (quantity > prevQuantity.current) {
+      console.log("Incrementou");
+    } else if (quantity < prevQuantity.current) {
+      console.log("Decrementou");
+    }
+    prevQuantity.current = quantity;
+  }, [quantity]);
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
+    setRightButtonVariant("destructive");
+    setLeftButtonVariant("secondary");
   };
 
   const handleDecrement = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
+    setLeftButtonVariant("destructive");
+    setRightButtonVariant("secondary");
   };
 
   return (
@@ -33,7 +53,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             <div className="flex items-center gap-2">
               <Button
                 size="icon"
-                variant="secondary"
+                variant={leftButtonVariant}
                 className="rounded-xl"
                 onClick={handleDecrement}
               >
@@ -46,7 +66,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
               <Button
                 size="icon"
-                variant="secondary"
+                variant={rightButtonVariant}
                 className="rounded-xl"
                 onClick={handleIncrement}
               >
