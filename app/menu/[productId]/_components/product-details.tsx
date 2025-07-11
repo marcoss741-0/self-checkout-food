@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@/app/_components/ui/button";
-import { Sheet, SheetTrigger } from "@/app/_components/ui/sheet";
 import { formatCurrency } from "@/app/helpers/format-currency";
 import { Product } from "@prisma/client";
 import { ChefHat, ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import CartContent from "./cart-content";
+import { useContext, useState } from "react";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
+import CartContent from "./cart-content";
+import { CartContext } from "../../cart";
 
 interface ProductDetailsProps {
   product: Product | null;
@@ -15,7 +15,6 @@ interface ProductDetailsProps {
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   const [quantity, setQuantity] = useState(1);
-  const prevQuantity = useRef(quantity);
   const [leftButtonVariant, setLeftButtonVariant] = useState<
     "secondary" | "destructive"
   >("secondary");
@@ -23,14 +22,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     "secondary" | "destructive"
   >("secondary");
 
-  useEffect(() => {
-    if (quantity > prevQuantity.current) {
-      console.log("Incrementou");
-    } else if (quantity < prevQuantity.current) {
-      console.log("Decrementou");
-    }
-    prevQuantity.current = quantity;
-  }, [quantity]);
+  const { toggleCart } = useContext(CartContext);
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -42,6 +34,10 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : prev));
     setLeftButtonVariant("destructive");
     setRightButtonVariant("secondary");
+  };
+
+  const handleAddCart = () => {
+    toggleCart();
   };
 
   return (
@@ -100,18 +96,16 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         </div>
       </ScrollArea>
 
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button
-            className="w-full rounded-full py-4 px-3 mt-auto"
-            size="lg"
-            variant="default"
-          >
-            Adicionar ao carrinho
-          </Button>
-        </SheetTrigger>
-        <CartContent />
-      </Sheet>
+      <Button
+        className="w-full rounded-full py-4 px-3 mt-auto"
+        size="lg"
+        variant="default"
+        onClick={handleAddCart}
+      >
+        Adicionar ao carrinho
+      </Button>
+
+      <CartContent />
     </div>
   );
 };
