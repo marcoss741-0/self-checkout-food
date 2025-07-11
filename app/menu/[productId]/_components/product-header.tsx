@@ -5,6 +5,8 @@ import { Product } from "@prisma/client";
 import { ArrowLeftIcon, ScrollTextIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { CartContext } from "../../cart";
 
 interface ProductHeaderProps {
   product: Product | null;
@@ -12,14 +14,17 @@ interface ProductHeaderProps {
 
 const ProductHeader = ({ product }: ProductHeaderProps) => {
   const router = useRouter();
+  const { toggleCart } = useContext(CartContext);
 
   function handleBackClick() {
     router.back();
   }
 
   function handleCartClick() {
+    toggleCart();
     console.log("Cart button clicked");
   }
+
   return (
     <div className="relative h-[332px] w-full bg-slate-100">
       <Button

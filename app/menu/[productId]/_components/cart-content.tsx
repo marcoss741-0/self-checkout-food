@@ -11,7 +11,7 @@ import { useContext } from "react";
 import { CartContext } from "../../cart";
 
 const CartContent = () => {
-  const { toggleCart, isOpen } = useContext(CartContext);
+  const { toggleCart, isOpen, products } = useContext(CartContext);
 
   return (
     <>
@@ -21,6 +21,11 @@ const CartContent = () => {
             <SheetTitle className="text-start">Sacola</SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
+          {products.map((product) => (
+            <h1 key={product.id}>
+              {product.name} - {product.quantity}
+            </h1>
+          ))}
         </SheetContent>
       </Sheet>
     </>

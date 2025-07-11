@@ -22,7 +22,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     "secondary" | "destructive"
   >("secondary");
 
-  const { toggleCart } = useContext(CartContext);
+  const { toggleCart, addProductToCart } = useContext(CartContext);
 
   const handleIncrement = () => {
     setQuantity((prev) => prev + 1);
@@ -37,6 +37,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   };
 
   const handleAddCart = () => {
+    if (!product) return null;
+    addProductToCart({
+      ...product,
+      quantity,
+    });
     toggleCart();
   };
 
