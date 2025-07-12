@@ -22,7 +22,6 @@ const ProductHeader = ({ product }: ProductHeaderProps) => {
 
   function handleCartClick() {
     toggleCart();
-    console.log("Cart button clicked");
   }
 
   return (
