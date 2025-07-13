@@ -7,7 +7,7 @@ import { ChefHat, ChevronLeft, ChevronRight } from "lucide-react";
 import { useContext, useState } from "react";
 import { ScrollArea } from "@/app/_components/ui/scroll-area";
 import CartContent from "./cart-content";
-import { CartContext } from "../../cart";
+import { CartContext } from "../../context/cart";
 
 interface ProductDetailsProps {
   product: Product | null;
