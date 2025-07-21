@@ -9,6 +9,7 @@ import {
 } from "@/app/_components/ui/sheet";
 import { useContext } from "react";
 import { CartContext } from "../../context/cart";
+import CartItem from "./cart-item";
 
 const CartContent = () => {
   const { toggleCart, isOpen, products } = useContext(CartContext);
@@ -16,16 +17,17 @@ const CartContent = () => {
   return (
     <>
       <Sheet open={isOpen} onOpenChange={toggleCart}>
-        <SheetContent>
+        <SheetContent className="w-[85%]">
           <SheetHeader>
             <SheetTitle className="text-start">Sacola</SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
-          {products.map((product) => (
-            <h1 key={product.id}>
-              {product.name} - {product.quantity}
-            </h1>
-          ))}
+
+          <div className="space-y-5">
+            {products.map((product) => (
+              <CartItem key={product.id} product={product} />
+            ))}
+          </div>
         </SheetContent>
       </Sheet>
     </>

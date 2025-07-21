@@ -3,7 +3,7 @@
 import { Product } from "@prisma/client";
 import { createContext, ReactNode, useState } from "react";
 
-interface CartProducts
+export interface CartProducts
   extends Pick<Product, "id" | "name" | "imageUrl" | "price"> {
   quantity: number;
 }
@@ -13,6 +13,8 @@ export interface ICartContext {
   toggleCart: () => void;
   products: CartProducts[];
   addProductToCart: (product: CartProducts) => void;
+  decreaseProductsQuantity: (productId: string) => void;
+  increaseProductsQuantity: (productId: string) => void;
 }
 
 export const CartContext = createContext<ICartContext>({
@@ -20,6 +22,8 @@ export const CartContext = createContext<ICartContext>({
   toggleCart: () => {},
   products: [],
   addProductToCart: () => {},
+  decreaseProductsQuantity: () => {},
+  increaseProductsQuantity: () => {},
 });
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
@@ -33,6 +37,32 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     setProducts((prev) => [...prev, product]);
   };
 
+  const decreaseProductsQuantity = (productId: string) => {
+    setProducts((prevProducts) => {
+      return prevProducts.map((prevProduct) => {
+        if (prevProduct.id !== productId) {
+          return prevProduct;
+        }
+        if (prevProduct.quantity === 1) {
+          return prevProduct;
+        }
+        return { ...prevProduct, quantity: prevProduct.quantity - 1 };
+      });
+    });
+  };
+
+  const increaseProductsQuantity = (productId: string) => {
+    setProducts((prevProducts) => {
+      return prevProducts.map((prevProduct) => {
+        if (prevProduct.id !== productId) {
+          return prevProduct;
+        }
+
+        return { ...prevProduct, quantity: prevProduct.quantity + 1 };
+      });
+    });
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -40,6 +70,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         toggleCart,
         products,
         addProductToCart,
+        decreaseProductsQuantity,
+        increaseProductsQuantity,
       }}
     >
       {children}
