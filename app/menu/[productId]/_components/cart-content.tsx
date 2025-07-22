@@ -10,9 +10,9 @@ import {
 import { useContext } from "react";
 import { CartContext } from "../../context/cart";
 import CartItem from "./cart-item";
-import { Button } from "@/app/_components/ui/button";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { formatCurrency } from "@/app/helpers/format-currency";
+import FinishOrderButton from "./finish-order-button";
 
 const CartContent = () => {
   const { toggleCart, isOpen, products, total } = useContext(CartContext);
@@ -42,7 +42,7 @@ const CartContent = () => {
                 </div>
               </CardContent>
             </Card>
-            <Button className="w-full rounded-full">Finalizar Pedido</Button>
+            <FinishOrderButton />
           </div>
         </SheetContent>
       </Sheet>
