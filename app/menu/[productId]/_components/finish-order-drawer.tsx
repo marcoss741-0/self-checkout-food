@@ -25,6 +25,12 @@ import {
 import { Input } from "@/app/_components/ui/input";
 import { isValidCpf } from "@/app/helpers/cpf";
 import { Loader } from "lucide-react";
+import { PatternFormat } from "react-number-format";
+
+interface FinishDrawerCartProps {
+  extOpen: boolean;
+  extOnOpenChange: (open: boolean) => void;
+}
 
 const formSchema = z.object({
   name: z.string().trim().min(1, "Nome é obrigatório"),
@@ -35,13 +41,17 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-const FinishOrderButton = () => {
+const FinishDrawerCart = ({
+  extOpen,
+  extOnOpenChange,
+}: FinishDrawerCartProps) => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       cpf: "",
     },
+    shouldUnregister: true,
   });
   const { handleSubmit, formState } = form;
 
@@ -51,10 +61,7 @@ const FinishOrderButton = () => {
 
   return (
     <>
-      <Drawer>
-        <DrawerTrigger asChild>
-          <Button className="w-full rounded-full">Finalizar Pedido</Button>
-        </DrawerTrigger>
+      <Drawer open={extOpen} onOpenChange={extOnOpenChange}>
         <DrawerContent>
           <DrawerHeader>
             <DrawerTitle>Quase lá</DrawerTitle>
@@ -76,7 +83,7 @@ const FinishOrderButton = () => {
                     <FormItem>
                       <FormLabel>Seu Nome</FormLabel>
                       <FormControl>
-                        <Input placeholder="Digite seu nome" {...field} />
+                        <Input placeholder="Digite seu nome..." {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -90,7 +97,12 @@ const FinishOrderButton = () => {
                     <FormItem>
                       <FormLabel>Seu CPF</FormLabel>
                       <FormControl>
-                        <Input placeholder="Digite seu CPF" {...field} />
+                        <PatternFormat
+                          placeholder="Digite seu CPF..."
+                          format="###.###.###-##"
+                          customInput={Input}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -124,4 +136,4 @@ const FinishOrderButton = () => {
   );
 };
 
-export default FinishOrderButton;
+export default FinishDrawerCart;
