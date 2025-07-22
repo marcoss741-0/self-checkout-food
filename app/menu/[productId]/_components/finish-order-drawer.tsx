@@ -23,7 +23,7 @@ import {
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
 import { isValidCpf } from "@/app/helpers/cpf";
-import { Loader } from "lucide-react";
+import { HamburgerIcon, Loader } from "lucide-react";
 import { PatternFormat } from "react-number-format";
 import { useSearchParams } from "next/navigation";
 import { createOrder } from "../../actions/create-orders";
@@ -76,7 +76,13 @@ const FinishDrawerCart = ({
       products.forEach((product) => removeProductFromCart(product.id));
       toggleCart();
       extOnOpenChange(false);
-      toast.success("Pedido realizado com sucesso!");
+      toast("Pedido realizado com sucesso!", {
+        icon: <HamburgerIcon className="h-5 w-5" />,
+        style: {
+          backgroundColor: "#fff3cd",
+          color: "#856404",
+        },
+      });
     } catch (error) {
       console.log(error);
       toast.error("Ooops, algo inesperado ocorreu!");
