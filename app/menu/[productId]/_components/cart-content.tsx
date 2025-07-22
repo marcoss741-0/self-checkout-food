@@ -12,7 +12,6 @@ import { CartContext } from "../../context/cart";
 import CartItem from "./cart-item";
 import { Card, CardContent } from "@/app/_components/ui/card";
 import { formatCurrency } from "@/app/helpers/format-currency";
-import FinishOrderButton from "./finish-order-drawer";
 import { Button } from "@/app/_components/ui/button";
 import FinishDrawerCart from "./finish-order-drawer";
 
@@ -51,7 +50,7 @@ const CartContent = () => {
             >
               Finalizar Pedido
             </Button>
-            
+
             <FinishDrawerCart
               extOpen={isCartOpen}
               extOnOpenChange={setIsCartOpen}

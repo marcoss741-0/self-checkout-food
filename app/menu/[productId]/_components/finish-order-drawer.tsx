@@ -9,7 +9,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/app/_components/ui/drawer";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -26,6 +25,12 @@ import { Input } from "@/app/_components/ui/input";
 import { isValidCpf } from "@/app/helpers/cpf";
 import { Loader } from "lucide-react";
 import { PatternFormat } from "react-number-format";
+import { useSearchParams } from "next/navigation";
+import { createOrder } from "../../actions/create-orders";
+import { ConsumptionMethod } from "@prisma/client";
+import { useContext } from "react";
+import { CartContext } from "../../context/cart";
+import { toast } from "sonner";
 
 interface FinishDrawerCartProps {
   extOpen: boolean;
@@ -54,9 +59,28 @@ const FinishDrawerCart = ({
     shouldUnregister: true,
   });
   const { handleSubmit, formState } = form;
+  const { products, removeProductFromCart, toggleCart } =
+    useContext(CartContext);
+  const params = useSearchParams();
+  const consumptionMethod = params.get("consumptionMethod");
 
-  function onSubmit(data: FormData) {
-    console.log("Form Data Submitted:", data);
+  async function onSubmit(data: FormData) {
+    try {
+      await createOrder({
+        consumptionMethod: consumptionMethod as ConsumptionMethod,
+        customerName: data.name,
+        customerCpf: data.cpf,
+        products,
+        slug: "self-choice",
+      });
+      products.forEach((product) => removeProductFromCart(product.id));
+      toggleCart();
+      extOnOpenChange(false);
+      toast.success("Pedido realizado com sucesso!");
+    } catch (error) {
+      console.log(error);
+      toast.error("Ooops, algo inesperado ocorreu!");
+    }
   }
 
   return (
@@ -118,8 +142,12 @@ const FinishDrawerCart = ({
                         Cancelar
                       </Button>
                     </DrawerClose>
-                    <Button variant="destructive" className="w-full">
-                      {formState.isLoading ? (
+                    <Button
+                      variant="destructive"
+                      className="w-full"
+                      disabled={formState.isSubmitting}
+                    >
+                      {formState.isSubmitting ? (
                         <Loader className="mr-2 h-4 w-4 animate-spin" />
                       ) : (
                         "Finalizar Pedido"
