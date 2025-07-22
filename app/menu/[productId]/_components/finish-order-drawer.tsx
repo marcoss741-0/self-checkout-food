@@ -77,7 +77,7 @@ const FinishDrawerCart = ({
       toggleCart();
       extOnOpenChange(false);
       toast("Pedido realizado com sucesso!", {
-        icon: <HamburgerIcon className="h-5 w-5" />,
+        icon: <HamburgerIcon className="h-5 w-5" strokeWidth={2} />,
         style: {
           backgroundColor: "#fff3cd",
           color: "#856404",
