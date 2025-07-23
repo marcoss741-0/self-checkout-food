@@ -31,7 +31,11 @@ const ConsumptionMethodOptions = ({
               className="object-contain"
             />
           </div>
-          <Button variant="secondary" className="rounded-full" asChild>
+          <Button
+            variant="outline"
+            className="border border-slate-300 rounded-full"
+            asChild
+          >
             <Link href={`/menu?consumptionMethod=${method}`}>{text}</Link>
           </Button>
         </CardContent>
