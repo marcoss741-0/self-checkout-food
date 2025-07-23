@@ -51,7 +51,7 @@ const CartContent = () => {
               </>
             ) : (
               <>
-                <div className="flex-auto">
+                <div className="flex-auto space-y-4">
                   {products.map((product) => (
                     <CartItem key={product.id} product={product} />
                   ))}

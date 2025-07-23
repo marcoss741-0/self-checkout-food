@@ -22,10 +22,10 @@ import {
   FormMessage,
 } from "@/app/_components/ui/form";
 import { Input } from "@/app/_components/ui/input";
-import { isValidCpf } from "@/app/helpers/cpf";
+import { isValidCpf, removeCpfPunctuation } from "@/app/helpers/cpf";
 import { HamburgerIcon, Loader } from "lucide-react";
 import { PatternFormat } from "react-number-format";
-import { useSearchParams } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 import { createOrder } from "../../actions/create-orders";
 import { ConsumptionMethod } from "@prisma/client";
 import { useContext } from "react";
@@ -83,6 +83,9 @@ const FinishDrawerCart = ({
           color: "#856404",
         },
       });
+      setTimeout(() => {
+        redirect(`/orders?cpf=${removeCpfPunctuation(data.cpf)}`);
+      }, 1300);
     } catch (error) {
       console.log(error);
       toast.error("Ooops, algo inesperado ocorreu!");
